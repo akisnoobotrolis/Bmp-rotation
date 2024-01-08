@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void readBMP(const char* filename,  char** data,  char header[54], int* width, int* height, int* row_padded, int * file_size) {
+void read_BMP(const char* filename,  char** data,  char header[54], int* width, int* height, int* row_padded, int * file_size) {
     FILE *file = fopen(filename, "rb");
     if (file == NULL) {
         perror("Error opening file");
@@ -19,7 +19,7 @@ void readBMP(const char* filename,  char** data,  char header[54], int* width, i
     fclose(file);
 }
 
-void rotateBMP( char* data, int width, int height, int row_padded,  char** rotated_data, int* new_row_padded) {
+void rotate_BMP( char* data, int width, int height, int row_padded,  char** rotated_data, int* new_row_padded) {
     //change dimensions
     int new_width = height; //change 
     int new_height = width;
@@ -37,7 +37,7 @@ void rotateBMP( char* data, int width, int height, int row_padded,  char** rotat
     }
 }
 
-void writeBMP(const char* filename, char* data,  char header[54], int width, int height, int row_padded, int file_size) {
+void write_BMP(const char* filename, char* data,  char header[54], int width, int height, int row_padded, int file_size) {
     FILE *outFile = fopen(filename, "wb");
     if (outFile == NULL) {
         perror("Error opening file");
@@ -94,9 +94,9 @@ int main() {
     char header[54];
     int width, height, row_padded, new_row_padded, file_size;
 
-    readBMP(inputFilename, &data, header, &width, &height, &row_padded,&file_size); //
-    rotateBMP(data, width, height, row_padded, &rotated_data, &new_row_padded);
-    writeBMP(outputFilename, rotated_data, header, height, width, new_row_padded, file_size);
+    read_BMP(inputFilename, &data, header, &width, &height, &row_padded,&file_size); //
+    rotate_BMP(data, width, height, row_padded, &rotated_data, &new_row_padded);
+    write_BMP(outputFilename, rotated_data, header, height, width, new_row_padded, file_size);
 
     free(data);
     free(rotated_data);
